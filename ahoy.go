@@ -630,13 +630,14 @@ func (s *appState) bashComplete(cmd *cobra.Command, args []string, toComplete st
 
 // printLegacyCompletions answers a urfave/cli style --generate-bash-completion
 // request. It lists the visible subcommands of the command that args resolve
-// to, or of the root command when args is empty. A command without
+// to, or of the root command when args is empty. One word may be left over
+// after the command, as the word being completed. A command without
 // subcommands, or args that do not resolve, list nothing. Nothing is run.
 func printLegacyCompletions(w io.Writer, rootCmd *cobra.Command, args []string) {
 	cmd := rootCmd
 	if len(args) > 0 {
-		found, _, err := rootCmd.Find(args)
-		if err != nil {
+		found, rest, err := rootCmd.Find(args)
+		if err != nil || len(rest) > 1 {
 			return
 		}
 		cmd = found

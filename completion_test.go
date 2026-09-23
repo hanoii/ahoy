@@ -100,6 +100,7 @@ func TestPrintLegacyCompletions(t *testing.T) {
 		{"imports list subcommands", []string{"group"}, "one\ntwo\n"},
 		{"imports with a partial word list subcommands", []string{"group", "o"}, "one\ntwo\n"},
 		{"unknown command lists nothing", []string{"nope"}, ""},
+		{"imports with unresolved words list nothing", []string{"group", "typo", "o"}, ""},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
